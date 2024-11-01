@@ -1,5 +1,6 @@
 /// <reference types="Cypress" />
 import chai from 'chai';
+import { wrap } from 'module';
 
 describe('Central de Atendimento ao Cliente TAT', () => {
     beforeEach('', () => {
@@ -67,6 +68,60 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     it('preenche e limpa os campos nome, sobrenome, email e telefone', () => {
         cy.get('.button').click()
         cy.get('.error').should('be.visible')
+    })
+    it('envia o formuário com sucesso usando um comando customizado', () => {
+        cy.fillMandatoryFieldsAndSubmit()
+        cy.get('.success').should('be.visible')
+
+    })
+    it('seleciona um produto (YouTube) por seu texto', () => {
+        cy.get('#product').select('YouTube').should('have.value', 'youtube')
+    })
+    it('seleciona um produto (Mentoria) por seu valor (value)', () => {
+        cy.get('#product').select('mentoria').should('have.value', 'mentoria')
+    })
+    it('seleciona um produto (Blog) por seu índice', () => {
+        cy.get('#product').select(2).should('have.value', 'cursos')
+    })
+    it('marca o tipo de atendimento "Feedback"', () => {
+        cy.get('input[type="radio"][value="feedback"]').check().should('have.value', 'feedback')
+    })
+    it('marca cada tipo de atendimento', () => {
+        cy.get('input[type="radio"]')
+            .should('have.length', 3)
+            .each(' ', ($radio) => {    //cada
+                cy.wrap($radio).check()
+                cy.wrap($radio).should('be.checked')
+            })
+
+    })
+    it('marca ambos checkboxes, depois desmarca o último', () => {
+        cy.get('input[type="checkbox"]')
+            .check()
+            .should('be.checked')
+            .last() //seleciona o último elemento
+            .uncheck()
+            .should('not.be.checked')
+    })
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+        cy.get('#firstName').type('Fabíola')
+        cy.get('#lastName').type('Ângelo')
+        cy.get('#email').type('fabiola@gmail.com')
+        cy.get('#phone-checkbox').check()
+        cy.get('#phone-checkbox').should('be.checked')
+        cy.get('#open-text-area').type('Utilizando o comando check, para os testes ficarem mais robustos e semânticos.')
+        cy.get('.button').click()
+        cy.get('.error').should('be.visible')
+    })
+    it.only('seleciona um arquivo da pasta fixtures', () => {
+        cy.get('input[type="file"]')
+            .should('not.have.value')
+            .selectFile('./cypress/fixtures/example.json')
+            .should(($input) => {
+                // console.log($input)
+                expect($input[0].files[0].name).to.equal('example.json')
+            })      
+            
     })
 
 })
