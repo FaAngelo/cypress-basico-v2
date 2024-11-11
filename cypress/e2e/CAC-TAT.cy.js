@@ -3,13 +3,14 @@ import chai from 'chai';
 import { wrap } from 'module';
 
 describe('Central de Atendimento ao Cliente TAT', () => {
-    beforeEach('', () => {
+    beforeEach('', () => { //beforeEach, viewport
         cy.visit('cypress-basico-v2/src/index.html')
+        cy.viewport(410, 860)
     })
-    it('verifica o título da aplicação', () => {
+    it('verifica o título da aplicação', () => { // title, eq
         cy.title().should('eq', 'Central de Atendimento ao Cliente TAT')
     })
-    it('preenche os campos obrigatórios e envia o formulário', () => {
+    it('preenche os campos obrigatórios e envia o formulário', () => { // type, click, should
         cy.get('#firstName').type('Fabíola')
         cy.get('#lastName').type('Ângelo')
         cy.get('#email').type('fabiola@gmail.com')
@@ -17,7 +18,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.button').click()
         cy.get('.success').should('be.visible')
     })
-    it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
+    it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => { //delay
         cy.get('#firstName').type('Fabíola')
         cy.get('#lastName').type('Ângelo')
         cy.get('#email').type('fabiolagmail.com')
@@ -25,7 +26,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.button').click()
         cy.get('.error').should('be.visible')
     })
-    it('campo de telefone vazio quando valores não-numéricos são digitados', () => {
+    it('campo de telefone vazio quando valores não-numéricos são digitados', () => { 
         cy.get('#phone')
             .type('number')
             .should('have.value', '')
@@ -40,7 +41,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.error').should('be.visible')
     })
 
-    it('preenche e limpa os campos nome, sobrenome, email e telefone', () => {
+    it('preenche e limpa os campos nome, sobrenome, email e telefone', () => { // clear. have.value
         cy.get('#firstName')
             .type('Fabíola')
             .should('have.value', 'Fabíola')
@@ -69,12 +70,12 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.button').click()
         cy.get('.error').should('be.visible')
     })
-    it('envia o formuário com sucesso usando um comando customizado', () => {
+    it('envia o formuário com sucesso usando um comando customizado', () => { //fillMandatoryFieldsAndSubmit
         cy.fillMandatoryFieldsAndSubmit()
         cy.get('.success').should('be.visible')
 
     })
-    it('seleciona um produto (YouTube) por seu texto', () => {
+    it('seleciona um produto (YouTube) por seu texto', () => { // select
         cy.get('#product').select('YouTube').should('have.value', 'youtube')
     })
     it('seleciona um produto (Mentoria) por seu valor (value)', () => {
@@ -83,10 +84,10 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     it('seleciona um produto (Blog) por seu índice', () => {
         cy.get('#product').select(2).should('have.value', 'cursos')
     })
-    it('marca o tipo de atendimento "Feedback"', () => {
+    it('marca o tipo de atendimento "Feedback"', () => { //check
         cy.get('input[type="radio"][value="feedback"]').check().should('have.value', 'feedback')
     })
-    it('marca cada tipo de atendimento', () => {
+    it('marca cada tipo de atendimento', () => { //Each e wrap
         cy.get('input[type="radio"]')
             .should('have.length', 3)
             .each(' ', ($radio) => {    //cada
@@ -95,7 +96,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
             })
 
     })
-    it('marca ambos checkboxes, depois desmarca o último', () => {
+    it('marca ambos checkboxes, depois desmarca o último', () => { //Check, uncheck, last
         cy.get('input[type="checkbox"]')
             .check()
             .should('be.checked')
@@ -103,7 +104,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
             .uncheck()
             .should('not.be.checked')
     })
-    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => { // Check
         cy.get('#firstName').type('Fabíola')
         cy.get('#lastName').type('Ângelo')
         cy.get('#email').type('fabiola@gmail.com')
@@ -113,7 +114,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.button').click()
         cy.get('.error').should('be.visible')
     })
-    it('seleciona um arquivo da pasta fixtures', () => {
+    it('seleciona um arquivo da pasta fixtures', () => { // selectFile, expect, to equal
         cy.get('input[type="file"]')
             .should('not.have.value')
             .selectFile('./cypress/fixtures/example.json')
@@ -123,7 +124,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
             })
 
     })
-    it('seleciona um arquivo simulando um drag-and-drop', () => {
+    it('seleciona um arquivo simulando um drag-and-drop', () => { //selectFile, action:'drag-drop', not.have.value
         cy.get('input[type="file"]')
             .should('not.have.value')
             .selectFile('./cypress/fixtures/example.json', { action: 'drag-drop' })
@@ -141,15 +142,15 @@ describe('Central de Atendimento ao Cliente TAT', () => {
             })
 
     })
-    it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', ()=>{
+    it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', ()=>{ // have.attr, target, blank
         cy.get('#privacy a').should('have.attr','target','_blank')
     })
-    it('acessa a página da política de privacidade removendo o target e então clicando no link', ()=> {
+    it('acessa a página da política de privacidade removendo o target e então clicando no link', ()=> { // invoke, removeAttr, contains
         cy.get('#privacy a')
         .invoke('removeAttr', 'target')
         .click()
-
         cy.contains('Talking About Testing').should('be.visible')
     })
+    
 
 })
