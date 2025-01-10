@@ -5,10 +5,11 @@
   "main": "src/index.html",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:open:mobile":"cypress open --config viewportWidth=410 viewportHeight=860",
+    "cy:open:mobile": "cypress open --config viewportWidth=410 viewportHeight=860",
     "test": "cypress run"
   },
   "dependencies": {
+    "cypress": "^13.17.0",
     "express": "^4.17.1"
   },
   "repository": {
@@ -24,5 +25,8 @@
   ],
   "author": "Walmyr Filho <wlsf82@gmail.com> (https://walmyr.dev/)",
   "license": "MIT",
-  "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme"
+  "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme",
+  "devDependencies": {
+    "cypress-repeat": "^2.3.8"
+  }
 }
