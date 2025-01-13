@@ -79,7 +79,15 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.error').should('be.visible')
     })
     it.only('envia o formuário com sucesso usando um comando customizado',()=>{
+        const data = {
+            firstName: 'Anna',
+            lastName: 'Eloá',
+            email: 'test@gmail.com',
+            text: 'Automatizando com a ferramenta cypress.',
+        }
+        cy.fillMandatoryFieldsAndSubmit(data)
 
+        cy.get('.success').should('be.visible')
     })
 
 })
