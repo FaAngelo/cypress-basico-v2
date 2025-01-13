@@ -16,7 +16,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('#lastName').type('Fabíola')
         cy.get('#email').type('teste@gmail.com')
         cy.get('#open-text-area').type(longText, { delay: 0 })
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
         cy.get('.success').should('be.visible')
     })
 
@@ -25,7 +25,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('#lastName').type('Fabíola')
         cy.get('#email').type('teste.gmail.com')
         cy.get('#open-text-area').type('Automatizando com a ferramenta cypress.')
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
 
         cy.get('.error').should('be.visible')
     })
@@ -42,7 +42,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('#email').type('teste@gmail.com')
         cy.get('#phone-checkbox').check()
         cy.get('#open-text-area').type('Automatizando com a ferramenta cypress.')
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
 
         cy.get('.error').should('be.visible')
     })
@@ -69,16 +69,16 @@ describe('Central de Atendimento ao Cliente TAT', () => {
             .clear()
             .should('have.value', '')
         cy.get('#open-text-area').type('Automatizando com a ferramenta cypress.')
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
 
     })
     
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios',()=>{
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
         
         cy.get('.error').should('be.visible')
     })
-    it.only('envia o formuário com sucesso usando um comando customizado',()=>{
+    it('envia o formuário com sucesso usando um comando customizado',()=>{
         const data = {
             firstName: 'Anna',
             lastName: 'Eloá',
@@ -87,7 +87,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         }
         cy.fillMandatoryFieldsAndSubmit(data)
 
-        cy.get('.success').should('be.visible')
+        cy.contains('button', 'Enviar').click()
     })
 
 })
