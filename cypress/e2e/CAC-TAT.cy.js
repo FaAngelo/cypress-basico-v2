@@ -120,6 +120,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
             .last()
             .uncheck()
             .should("not.be.checked")
+        
     })
     it('seleciona um arquivo da pasta fixtures', () => {
         cy.get('#file-upload')
