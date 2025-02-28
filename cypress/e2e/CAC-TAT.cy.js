@@ -178,5 +178,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
           .should('not.be.visible')
       })
       
+      it.only("Faz uma requisição HTTP",()=>{
+        cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+      })
 
 })
