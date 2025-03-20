@@ -7,7 +7,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     it('verifica o título da aplicação', () => {
         cy.title().should('eq', 'Central de Atendimento ao Cliente TAT')
     })
-    it.only('preenche os campos obrigatórios e envia o formulário', () => {
+    it('preenche os campos obrigatórios e envia o formulário', () => {
         cy.clock()
         const longText = Cypress._.repeat('Automatizando com a ferramenta cypress.', 10)
 
@@ -180,6 +180,26 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       
       it.only("Faz uma requisição HTTP",()=>{
         cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+        .as('getRequest')
+        .its('status')
+        .should('eq',200)
+        cy.get('@getRequest')
+        .its('statusText')
+        .should('eq','OK')
+        cy.get('@getRequest')
+        .its('body')
+        .should('include','CAC TAT')  
+      })
+
+      it('encontra o gato escondido',()=>{
+        cy.get('#cat')
+          .should('not.be.visible')
+          .invoke('show')
+          .should('be.visible')
+          cy.get('#title')
+          .invoke('text','CAT TAT')
+          cy.get('#subtitle')
+          .invoke('text', 'Eu amo gatos')
       })
 
 })
